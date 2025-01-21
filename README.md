@@ -14,13 +14,16 @@ docker pull public.ecr.aws/q9t5s3a7/vllm-ci-postmerge-repo:${VLLM_COMMIT}
 
 Run the docker image:
 ```bash
-sudo docker run --gpus all --name spell-forge -it --rm -p 8888:8888 -p 8501:8501 -p 8000:8000 -p 80:80 --entrypoint /bin/bash -w /spell-forge -v $(pwd):/spell-forge spell-forge:1.0
+sudo docker run --gpus all --name spell-forge -it --rm -p 8888:8888 -p 8501:8501 -p 8000:8000 -p 80:80 --entrypoint /bin/bash -w /spell-forge -v $(pwd):/spell-forge -v ~/huggingface_models:/hf_models spell-forge:1.0
 ```
 
 Note: to use newer models you may have to run `pip install --upgrade transformers` in the docker image. In which case `docker commit` can be used to save a new image.
 ```bash
 docker commit a4f306f4f9d2 spell-forge:1.0
 ```
+
+## Minimal example
+A minimal example can be found in `vllm_minimal_example.py`, however some debugging is required, currently it says `LLM` has no attribute `llm_engine`. It may be the version of vLLM needs to be updated.
 
 ## Resources
 - [llama 3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct)
